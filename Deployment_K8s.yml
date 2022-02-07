@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ic-deploy-devops
+  labels:
+    app: ic-devops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels: ic-devops
+        app: ic-devops
+    spec:
+      containers:
+      - name: ic-main-devops
+        image: ubuntu:latest
+        ports:
+        - containerPort: 80
