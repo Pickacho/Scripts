@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  jenkins-service
+  namespace: jenkins-service
+  labels: 
+    app:  jenkins-service
+spec:
+  selector:
+    matchLabels:
+      app: jenkins-service
+  replicas: 1
+    type: RollingUpdate
+  template:
+    metadata: 
+      labels: 
+        app:  jenkins-service
+    spec:
+      containers:
+      - name:  jenkins
+        image:  jenkins/jenkins
+        ports:
+        - containerPort:  8080
+          name:  jenkins
+      restartPolicy: Always
