@@ -1,0 +1,27 @@
+---
+- hosts: stapp01
+  vars:
+
+  - name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
+    ansible.builtin.user:
+      name: james
+      shell: /bin/bash
+      groups: admins,wheel
+      append: yes
+
+  - name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
+    ansible.builtin.user:
+      name: james
+      shell: /bin/bash
+      groups: developers
+      append: yes
+
+
+
+#
+#ansible-vault decrypt   --vault-password-file=/home/thor/playbooks/vault_pass.txt /home/thor/playbooks/decrypt_me.yml
+#ansible-vault decrypt   --vault-password-file=password_file
+#--ask-vault-pass secret.yml
+# --vault-password-file=password_file
+#ansible-vault encrypt inventory 
+#ansible-playbook playbook.yml -i inventory -vault-password-file ~./vault_pass
