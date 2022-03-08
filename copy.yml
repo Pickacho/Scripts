@@ -1,0 +1,19 @@
+---
+- hosts: all
+  tasks:
+    - copy:
+        src: /home/thor/playbooks/secrets_file.txt
+        dest: /root/.secrets_file.txt
+
+
+
+
+
+#Edit /etc/ansible/ansible.cfg file and make sure to set vault_password_file = /home/thor/playbooks/vault_pass.txt.
+#Also make sure /home/thor/playbooks/vault_pass.txt file permissions are 640
+#Please use the following YAML file and place it under ~/playbooks/copy_secrets.yml:
+
+
+#Use copy module to copy the file.
+
+#Edit /etc/ansible/ansible.cfg file to update vault_password_file parameter
