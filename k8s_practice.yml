@@ -1,0 +1,56 @@
+- name: load deployment
+  k8s:
+    name: appname
+    kind: Deployment
+    api_version: v1
+    state: present
+    namespace: '{{ k8s_role_namespace }}' # Use kub_variables in playbook
+    definition:
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app: appname
+        template:
+          metadata:
+            labels:
+              app: appname
+          spec:
+            volumes:
+              - name: appname-volume
+                configMap:
+                  name: appname-configmap # Name of ConfigMap
+            containers:
+              - name: appname-container
+                image: IMAGENAME # Name of image
+                imagePullPolicy: IfNotPresent
+                resources: {}
+                volumeMounts:
+                  - name: appname-volume
+                    mountPath: /config # Mount configs path
+                    readOnly: true
+                ports:
+                  - containerPort: PORT # Port of container
+                    protocol: TCP
+                env:
+                  - name: TZ
+                    value: Europe/Moscow
+
+
+
+- name: load persistent volume claim
+  k8s:
+    kind: PersistentVolumeClaim
+    api_version: v1
+    name: '{{ pvc_volume }}' # Use kub_variables in playbook
+    namespace: '{{ k8s_role_namespace }}' # Use kub_variables in playbook
+    definition:
+      spec:
+        storageClassName: '{{ k8s_role_storagename }}' # Use kub_variables in playbook
+        volumeName: '{{ pv_volume }}' # Use kub_variables in playbook
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: '{{ VMDK_SIZE }}' # Use kub_variables in playbook
+
