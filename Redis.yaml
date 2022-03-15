@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  redis-deployment
+  namespace: default
+  labels:
+    app:  redis-deployment
+spec:
+  selector:
+    matchLabels:
+      app: redis-deployment
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  redis-deployment
+    spec:
+      containers:
+      - name:  redis-container
+        image:  redis:alpine 
+        resources:
+          limits:
+            cpu: "1"
+            memory: 100Mi
+        env:
+        - name: my-redis-config 
+          valueFrom:
+            configMapKeyRef:
+              name: my-redis-config 
+              key: my-redis-config 
+        ports:
+        - containerPort:  6379
+          name:  redis-container
+        volumeMounts:
+        - mountPath: /redis-master-data
+          name: data
+        - mountPath: /redis-master
+          name: redis-config
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: redis-config
+          configMap:
+            name: my-redis-config
+            items:
+            - key: redis-config
+              path: redis-master
+                
+      restartPolicy: Always
