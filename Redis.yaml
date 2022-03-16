@@ -27,6 +27,8 @@ spec:
           limits:
             cpu: "1"
             memory: 100Mi
+          requests:
+            cpu: "0.5"
         env:
         - name: my-redis-config 
           valueFrom:
