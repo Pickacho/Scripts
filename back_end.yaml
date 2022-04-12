@@ -1,0 +1,168 @@
+#BACK-END TIER
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  redis-master
+  namespace: default
+  labels:
+    app:  redis-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-master
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  redis-master
+    spec:
+      containers:
+      - name:  master-redis-nautilus
+        image:  redis:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+        ports:
+        - containerPort:  6379
+          name:  redis-master
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-master
+  namespace: default
+spec:
+  selector:
+    app: myjob
+  type: ClusterIP
+  ports:
+  - name: myjob
+    protocol: TCP
+    port: 6379
+    targetPort: 6379
+---
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  slave-redis-xfusion 
+  namespace: default
+  labels:
+    app:  slave-redis-xfusion 
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: slave-redis-xfusion 
+  template:
+    metadata:
+      labels:
+        app:  slave-redis-xfusion
+    spec:
+      containers:
+      - name:  slave-redis-nautilus 
+        image:  gcr.io/google_samples/gb-redisslave:v3 
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+        ports:
+        - containerPort:  6379
+          name:  redis-slave
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-slave
+  namespace: default
+spec:
+  selector:
+    app: redis-slave
+  type: ClusterIP
+  ports:
+  - name: redis-slave
+    protocol: TCP
+    port: 6379
+    targetPort: 6379
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  frontend
+  namespace: default
+  labels:
+    app:  slave-redis-xfusion 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: slave-redis-xfusion 
+  template:
+    metadata:
+      labels:
+        app:  slave-redis-xfusion
+    spec:
+      containers:
+      - name: php-redis-nautilus 
+        image:  gcr.io/google-samples/gb-frontend:v4
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: GET_HOSTS_FROM
+          value: dns
+        livenessProbe:
+          tcpSocket:
+            port: 80
+        ports:
+        - containerPort:  80
+          name:  php-redis
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  namespace: default
+spec:
+  selector:
+    app: frontend
+  type: NodePort
+  ports:
+  - name: frontend
+    protocol: TCP
+    port: 80
+    targetPort: 6379
+    nodePort: 30009

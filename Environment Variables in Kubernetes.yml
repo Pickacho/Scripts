@@ -7,8 +7,16 @@ metadata:
     app: "envars"
 spec:
   containers:
-  - name: MYAPP
-    image: "debian-slim:latest"
+  - name: fieldref-container
+    image: "redis:latest"
+    command: ["/bin/sh","-c"]
+    args:
+      - while true;do
+          echo -en '/n';
+          printenv NODE_NAME POD_NAME '/n';
+          printenv POD_IP POD_SERVICE_ACCOUNT '/n';
+          sleep 10;
+        done;
     resources:
       limits:
         cpu: 200m
@@ -17,19 +25,21 @@ spec:
         cpu: 100m
         memory: 200Mi
     env:
-    - name: DB_HOST
+    - name: NODE_NAME
       valueFrom:
-        configMapKeyRef:
-          name: MYAPP
-          key: DB_HOST
-    ports:
-    - containerPort:  80
-      name:  http
-    volumeMounts:
-    - name: localtime
-      mountPath: /etc/localtime
-  volumes:
-    - name: localtime
-      hostPath:
-        path: /usr/share/zoneinfo/Asia/Shanghai
-  restartPolicy: Always
+        fieldRef:
+          fieldPath: spec.nodeName
+
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+    - name: POD_IP
+      valueFrom:
+        fieldRef:
+          fieldPath: status.podIP
+    - name: POD_SERVICE_ACCOUNT
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.serviceAccountName
+  restartPolicy: Never
