@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "print-env-container"
+  namespace: default
+  labels:
+    app: "MYAPP"
+spec:
+  containers:
+  - name: print-env-container
+    image: "bash"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    env:
+    - name: GREETING
+      value: "Welcome to"
+    - name: COMPANY
+      value: "xFusionCorp"
+    - name: GROUP
+      value: "Datacenter"
+    command: ["echo"]
+    args: ["$(GREETING) $(COMPANY) $(GROUP)"]
