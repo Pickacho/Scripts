@@ -1,9 +1,25 @@
-  apiVersion: "v1"
+apiVersion: v1
+kind: Service
+metadata:
+  name: tomcat-service-datacenter
+  namespace: missing!!
+spec:
+  type: NodePort
+  selector:
+    app: tomcat-service-datacenter
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 32227
+
+---
+  apiVersion: v1
   kind: "Namespace"
   metadata: 
-    name: "tomcat-namespace-datacenter"
+    name: tomcat-namespace-datacenter
     labels: 
-      name: "tomcat-namespace-datacenter"
+      name: tomcat-namespace-datacenter
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -13,52 +29,19 @@ metadata:
   labels:
     app:  tomcat-deployment-datacenter
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: tomcat-deployment-datacenter
-  replicas: 1
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
   template:
     metadata:
       labels:
         app:  tomcat-deployment-datacenter
     spec:
-      # initContainers:
-        # Init containers are exactly like regular containers, except:
-          # - Init containers always run to completion.
-          # - Each init container must complete successfully before the next one starts.
       containers:
-      - name:  tomcat
-        image:  gcr.io/kodekloud/centos-ssh-enabled:tomcat
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 100m
-            memory: 100Mi
-        ports:
-        - containerPort:  8080
-          name:  tomcat
-      restartPolicy: Always
-
+        - name:  tomcat-container-datacenter
+          image:  gcr.io/kodekloud/centos-ssh-enabled:tomcat
+          ports:
+          - containerPort:  8080
+            name:  tomcat
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: tomcat-service-datacenter
-spec:
-  type: NodePort
-  selector:
-    app: tomcat-service-datacenter
-  ports:
-      # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
-    - port: 8080
-      targetPort: 8080
-      # Optional field
-      # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
-      nodePort: 32227
