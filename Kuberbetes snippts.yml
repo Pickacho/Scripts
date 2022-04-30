@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: myapp
+        image: <Image>
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: <Port>
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+spec:
+  selector:
+    app: myapp
+  ports:
+  - port: <Port>
+    targetPort: <Target Port>
+
+# LimitRange for Pod or Container
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: LimitRangeName
+  namespace: default
+spec:
+  limits:
+  # 'default' and 'defaultRequest' may not be specified when type is 'Pod'
+  - type: Container
+    default:
+      cpu: 100m
+      memory: 512Mi
+    defaultRequest:
+      cpu: 100m
+      memory: 256Mi
+    max:
+      cpu: 200m
+      memory: 512Mi
+    min:
+      cpu: 100m
+      memory: 256Mi
+---
+# LimitRange for PersistentVolumeClaim
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: LimitRangeName
+  namespace: default
+spec:
+  limits:
+  - type: PersistentVolumeClaim
+    default:
+      storage: 2Gi
+    defaultRequest:
+      storage: 2Gi
+    max:
+      storage: 2Gi
+    min:
+      storage: 2Gi
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: myconfigmap
+  labels:
+    app: myapplication
+data:
+  my-key: my-value
