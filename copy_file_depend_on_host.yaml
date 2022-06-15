@@ -1,0 +1,31 @@
+---
+- name: Kodecloud_task
+  hosts: all
+  gather_facts: false
+  become: true
+  vars:
+    - inventory_hostname == stapp01
+      file = blog.txt
+    - inventory_hostname == stapp02
+      file = story.txt
+    - inventory_hostname == stapp03
+      file = media.txt
+  tasks:
+  - name: shell
+    shell: hostname
+  - name: copy_secrets
+    copy: 
+      src: "{{ file }}"
+      dst: /usr/src/itadmin/"{{ file }}"
+      mode: 0644
+    when: inventory_hostname == "{{inventory_hostname}}"
+    
+
+
+
+---
+hosts: localhost
+tasks:
+  - command: echo {{ item }}
+    loop: [ 0, 2, 4, 6, 8, 10 ]
+    when: item > 5
