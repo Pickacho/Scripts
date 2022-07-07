@@ -1,0 +1,40 @@
+---
+- name: install httpd + php
+  hosts: stapp02
+  remote_user: root
+  become: True
+
+  tasks:
+  - name: install httpd and php
+    yum:
+      name: ['httpd', 'php']
+      state: latest #  absent;installed;latest;present;removed
+
+
+  - name:  Change default document root of Apache in /etc/httpd/conf/httpd.conf
+    replace:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: DocumentRoot "/var/www/html"
+      replace: DocumentRoot "/var/www/html/myroot"
+
+  - name: mkdir sure that /var/www/html/myroot exist
+    ansible.builtin.file:
+      path: /var/www/html/myroot
+      state: directory
+      mode: '0755'
+      group: apache
+      owner: apache
+  - name: copy ~/playbooks/templates/phpinfo.php.j2
+    template:
+      src: ~/playbooks/templates/phpinfo.php.j2
+      dest: /var/www/html/myroot/phpinfo.php 
+      mode: '0440' 
+      owner: apache
+      group: apache
+  - name: start services
+    service:
+      name:  "{{ item }}"
+      state: started
+      enabled : yes
+    with_items:
+    - httpd
