@@ -17,6 +17,6 @@ Also make sure this new line is added at the top of the file.
 
 The /var/www/html/index.html file's user and group owner should be apache on all app servers.
 
-The /var/www/html/index.html file's permissions should be 0777 on all app servers.
+The /var/www/html/index.html file's permissions should be 0644 on all app servers.
 
-Note: Validation will try to run the playbook using command ansible-playbook -i inventory playbook.yml so please make sure the playbook works this way without passing any extra arguments.
+Note: Validation will try to run the playbook using command ansible-playbook -i inventory playbook.yml so please make sure the playbook works this way without passing any extra arguments

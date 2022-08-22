@@ -29,5 +29,6 @@
     file:
       path: "/var/www/html/index.html"
       state: file
-      mode: '0777'
+      mode: '0644'
       owner: apache
+      group: apache
