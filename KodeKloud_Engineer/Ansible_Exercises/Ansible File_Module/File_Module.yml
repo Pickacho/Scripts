@@ -1,11 +1,12 @@
 ---
-- hosts: all
+- name: Create file
+  hosts: all
+  become: true
   tasks:
-  - name: Creating an empty file
-    file:
+  - name: "Creating an empty file"
+    ansible.builtin.file:
       path: "/opt/nfsdata.txt"
       state: touch
       mode: 0644
-      owner: {{ ansible_user }}
-      group: 
-    
+      owner: "{{ ansible_ssh_user }}"
+      group: "{{ ansible_ssh_user }}"
