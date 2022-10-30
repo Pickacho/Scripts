@@ -1,47 +1,52 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  ic-deploy-datacenter
-  namespace: default
+  name:  httpd-deploy
+  namespace: xfusion
   labels:
-    app:  ic-datacenter
+    name:  xfusion
 spec:
+  replicas: 3
   selector:
     matchLabels:
-      app: ic-datacenter
-  replicas: 1
-  strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+      name : httpd
   template:
     metadata:
       labels:
-        app:  ic-datacenter
+        name:  httpd
     spec:
-      initContainers:
-      - name: ic-msg-datacenter
-        image: centos:latest
-        command: ['/bin/bash', '-c', 'echo Init Done - Welcome to xFusionCorp Industries > /ic/news']
-        volumeMounts:
-        - name: ic-volume-datacenter
-          mountPath: "/ic"
       containers:
-      - name:  ic-main-datacenter
-        image:  centos:latest
-        command: ['/bin/bash', '-c', 'while true; do cat /ic/news; sleep 5; done']
-        resources:
-          requests:
-            cpu: 100m
-            memory: 100Mi
-          limits:
-            cpu: 100m
-            memory: 100Mi
-        volumeMounts:
-        - name: ic-volume-datacenter
-          mountPath: /ic
-      volumes:
-        - name: ic-volume-datacenter
-          emptyDir: {}
+      - image:  httpd:2.4.25
+        name:  httpd
       restartPolicy: Always
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 2
+    type: RollingUpdate
+
+---
+kind: Service 
+apiVersion: v1 
+metadata:
+  name: httpd-service
+  namespace: xfusion
+spec:
+  # Expose the service on a static port on each node
+  # so that we can access the service from outside the cluster 
+  type: NodePort
+
+  # When the node receives a request on the static port (30163)
+  # "select pods with the label 'app' set to 'echo-hostname'"
+  # and forward the request to one of them
+  selector:
+    app: echo-hostname 
+
+  ports:
+    # Three types of ports for a service
+    # nodePort - a static port assigned on each the node
+    # port - port exposed internally in the cluster
+    # targetPort - the container port to send requests to
+    - nodePort: 30008
+      port: 8080 
+      targetPort: 80
