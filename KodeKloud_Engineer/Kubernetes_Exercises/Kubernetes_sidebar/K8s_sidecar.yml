@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "webserver"
+  namespace: default
+  labels:
+    app: "webserver"
+spec:
+  containers:
+  - name: sidecar-container
+    image: "ubuntu:latest"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    command: ["sh"]
+    args: ["-c","while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"]
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/nginx
+  - name: nginx-container
+    image: "nginx:latest"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    ports:
+    - containerPort: 80
+      name:  http
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/nginx
+  volumes:
+    - name: shared-logs
+      emptyDir: {}
+  restartPolicy: Always
