@@ -1,0 +1,52 @@
+# https://kubernetes.io/docs/concepts/workloads/pods/
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "volume-share-xfusion"
+  namespace: default
+  labels:
+    app: "myapp"
+spec:
+  containers:
+  - name: volume-container-xfusion-1
+    image: "ubuntu:latest"
+    # Just spin & wait forever
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+    volumeMounts:
+        - mountPath: /tmp/blog
+          name: volume-share
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    ports:
+    - containerPort: 80
+      name:  http
+  - name: volume-container-xfusion-2
+    image: "ubuntu:latest"
+    # Just spin & wait forever
+    command: [ "/bin/bash", "-c", "--" ]
+    args: [ "while true; do sleep 30; done;" ]
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    ports:
+    - containerPort: 80
+      name:  http
+    volumeMounts:
+      - mountPath: /tmp/cluster
+        name: volume-share
+  volumes:
+    - name: volume-share
+      emptyDir: {}
+
+  restartPolicy: Always
+---
