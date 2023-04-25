@@ -1,0 +1,29 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+  tasks:
+  - name: "action"
+    blockinfile:
+      path: /root/facts.txt  
+      state: present 
+      block: Ansible managed node IP is {{ ansible_facts.eth0.ipv4.address }}
+      create: True 
+
+  - name: install httpd
+    yum:
+      name: "{{ item }}" 
+      state: present
+    loop:
+      - httpd
+  - name: copy file
+    copy:
+      dest: /var/www/html/index.html 
+      src: /root/facts.txt 
+      remote_src: true
+  - name: start httpd service
+    service:
+      name: "{{ item }}" 
+      state: reloaded 
+    loop:
+      - httpd
