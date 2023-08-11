@@ -1,0 +1,19 @@
+# https://kubernetes.io/docs/concepts/workloads/pods/
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "httpd-pod"
+  namespace: default
+  labels:
+    app: "httpd-pod"
+spec:
+  containers:
+  - name: httpd-container
+    image: "httpd:latest"
+    resources:
+      limits:
+        cpu: 100m
+        memory: 20Mi
+      requests:
+        cpu: 100m
+        memory: 15Mi
