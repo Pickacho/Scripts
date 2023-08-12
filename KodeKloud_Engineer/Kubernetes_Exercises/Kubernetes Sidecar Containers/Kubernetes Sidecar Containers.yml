@@ -1,0 +1,41 @@
+# https://kubernetes.io/docs/concepts/workloads/pods/
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "webserver"
+  namespace: default
+  labels:
+    app: "webserver"
+spec:
+  containers:
+  - name: sidecar-container
+    image: "ubuntu:latest"
+    command: [ "/bin/sh", "-c", "--" ]
+    args: ["while true; do cat /var/log/nginx/access.log /var/log/nginx/error.log; sleep 30; done"]
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/nginx
+  - name: nginx-container
+    image: "nginx:latest"
+    resources:
+      limits:
+        cpu: 200m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 200Mi
+    volumeMounts:
+    - name: shared-logs
+      mountPath: /var/log/nginx
+  volumes:
+    - emptyDir: {}
+      name: shared-logs
+  restartPolicy: Always
+---
