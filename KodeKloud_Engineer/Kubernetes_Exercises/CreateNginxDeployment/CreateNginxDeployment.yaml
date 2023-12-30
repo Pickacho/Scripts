@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+
+
+
+
+
+
+
+
+Your selector in Service is incorrect.
+If you are preparing for CKA/S/AD exams, always use imperative command to generate manifest. Your search/cut/paste/edit activities in exam will eat up your 2 hours exam time.
+
+
+
+
+
+
+
+
+
+
+k create deployment nginx-deployment --image=nginx:latest --dry-run=client -oyaml > deployment.yaml
+edit container name, then:
+
+k expose deployment nginx-deployment --type=NodePort --port=80 --target-port=80 --protocol=TCP --selector=app=nginx-deployment --dry-run=client -oyaml > service.yaml
+Then just add nodePort: 30011
+
+
+Error prone and save you like 15 minutes of time
+
+
+
+
+
+
+
+in service.yaml change the selector the nginx-deployment
+example:
+spec:
+selector:
+app.kubernetes.io/name: nginx-deployment

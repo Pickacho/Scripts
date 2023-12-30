@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7b48fcd0-0545-47c2-bbca-e53cf70bd442" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2TmnzOsqtLmkpck0Rsh3GmZWtLE" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/ran0c/Documents/Github/Scripts/KodeKloud_Engineer&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7b48fcd0-0545-47c2-bbca-e53cf70bd442" name="Changes" comment="" />
+      <created>1691657384659</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1691657384659</updated>
+      <workItem from="1691657385637" duration="687000" />
+      <workItem from="1691670229746" duration="623000" />
+      <workItem from="1692132636807" duration="228000" />
+      <workItem from="1692132948908" duration="156000" />
+      <workItem from="1692133213534" duration="20000" />
+      <workItem from="1692911307749" duration="637000" />
+      <workItem from="1692912272891" duration="93000" />
+      <workItem from="1693225740110" duration="106000" />
+      <workItem from="1693225856232" duration="42000" />
+      <workItem from="1693583930302" duration="69000" />
+      <workItem from="1694434978261" duration="77000" />
+      <workItem from="1694435068017" duration="8000" />
+      <workItem from="1694440019157" duration="133000" />
+      <workItem from="1694695238099" duration="344000" />
+      <workItem from="1694695683463" duration="16000" />
+      <workItem from="1695387006973" duration="99000" />
+      <workItem from="1695480888192" duration="28000" />
+      <workItem from="1695515106043" duration="20000" />
+      <workItem from="1695730149101" duration="53000" />
+      <workItem from="1696190003132" duration="211000" />
+      <workItem from="1696282719117" duration="210000" />
+      <workItem from="1696282950843" duration="9000" />
+      <workItem from="1698617031121" duration="98000" />
+      <workItem from="1698617140142" duration="130000" />
+      <workItem from="1698617353765" duration="39000" />
+      <workItem from="1699104833770" duration="69000" />
+      <workItem from="1699104912408" duration="6000" />
+      <workItem from="1700660432298" duration="64000" />
+      <workItem from="1700660543461" duration="623000" />
+      <workItem from="1700777077132" duration="25000" />
+      <workItem from="1700777117687" duration="124000" />
+      <workItem from="1701978249039" duration="108000" />
+      <workItem from="1701978473097" duration="611000" />
+      <workItem from="1702590993596" duration="68000" />
+      <workItem from="1702591123383" duration="15000" />
+      <workItem from="1702646935755" duration="48000" />
+      <workItem from="1703195589578" duration="319000" />
+      <workItem from="1703195926054" duration="9000" />
+      <workItem from="1703196676013" duration="27000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>false</integration-enabled>
+    <settings-migrated>true</settings-migrated>
+  </component>
+</project>
